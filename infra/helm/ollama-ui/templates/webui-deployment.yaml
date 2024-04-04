@@ -43,7 +43,7 @@ spec:
         - name: OLLAMA_BASE_URL
           value: "http://ollama.ollama.svc.cluster.local:11434"
         - name: DEFAULT_MODELS
-          value: "gemma"
+          value: "gemma:latest"
         - name: SCARF_NO_ANALYTICS
           value: "true"
         - name: DO_NOT_TRACK
