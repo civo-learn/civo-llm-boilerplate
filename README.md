@@ -7,7 +7,6 @@ This project provides a boilerplate for deploying a K8s GPU Cluster on Civo Clou
 
 - [Ollama LLM Inference Server](https://github.com/ollama/ollama)
 - [Ollama Web UI](https://github.com/open-webui/open-webui)
-- [Stable Diffusion Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 - [Nvidia Device Plugin](https://github.com/NVIDIA/k8s-device-plugin)
 - An example Python LLM application
 
@@ -60,7 +59,6 @@ Deployment of components is controlled through boolean variables within the `tf/
 | `deploy_ollama`               | Deploy the Ollama inference server.                     | bool  | true         |
 | `deploy_ollama_ui`            | Deploy the Ollama Web UI.                               | bool  | true         |
 | `deploy_app`                  | Deploy the example application.                         | bool  | false         |
-| `deploy_stable_diffusion`     | Deploy the Stable Diffusion Web UI.                     | bool  | true         |
 | `deploy_nv_device_plugin_ds`  | Deploy the Nvidia GPU Device Plugin for enabling GPU support. | bool  | true         |
 
 ## Deploy LLM Boiler Plate
