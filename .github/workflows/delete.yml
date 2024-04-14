@@ -1,0 +1,29 @@
+name: Destroy Terraform Managed Infrastructure
+
+on:
+  workflow_dispatch:
+
+env:
+  TF_VAR_civo_token: ${{ secrets.CIVO_TOKEN }}
+
+jobs:
+  destroy-infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
+      
+      - name: Terraform Init
+        run: terraform -chdir=infra/tf/ init
+
+      - name: Terraform Plan
+        run: terraform -chdir=infra/tf/ plan -no-color -out=tfplan
+        continue-on-error: true
+
+      - name: Terraform Destroy
+        run: terraform -chdir=infra/tf/ destroy -auto-approve
