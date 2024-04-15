@@ -2,10 +2,10 @@ replicaCount: 1
 
 image:
   # customise this to your own repository
-  repository: repo/image
+  repository: ghcr.io/civo-learn/llm-boilerplate-app
   pullPolicy: Always
   tag: "latest"
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80

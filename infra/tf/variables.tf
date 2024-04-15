@@ -63,7 +63,7 @@ variable "deploy_ollama_ui" {
 variable "deploy_app" {
   description = "Deploy the example application."
   type        = bool
-  default     = false
+  default     = true
 }
 
 # deploy the Nvidia Device plugin to enable GPU Support
