@@ -43,4 +43,9 @@ def return_results():
     return response.choices[0].message.content
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    if is_container:
+        app.run(debug=True, host='0.0.0.0', port=80)
+    else:
+        app.run(debug=True, host='0.0.0.0')
+    
+    
