@@ -14,7 +14,7 @@ variable "cluster_node_size" {
     type    = string
     # default = "g4g.40.kube.small"  # A100 40gb
     # default = "g4g.kube.small" # A100 80gb
-    default = "an.g1.l40s.x1"  # L40s 46gb
+    default = "an.g1.l40s.kube.x1"  # L40s 46gb
     description = "The size of the GPU node required for the cluster"
 }
 
