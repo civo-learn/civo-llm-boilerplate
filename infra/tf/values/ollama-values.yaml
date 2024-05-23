@@ -7,7 +7,7 @@ ollama:
   # -- List of models to pull at container startup
   models: 
     - llama3
-    - gemma
+    # - gemma
     # - llava
     # - mixtral
 
