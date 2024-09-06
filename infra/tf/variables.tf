@@ -72,3 +72,8 @@ variable "deploy_nv_device_plugin_ds" {
   type        = bool
   default     = true
 }
+
+# Output the ollama-ui service IP
+output "ollama_ui_service_ip" {
+  value = data.kubernetes_service.ollama-ui.status.0.load_balancer.0.ingress.0.ip
+}

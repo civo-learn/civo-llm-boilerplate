@@ -9,3 +9,13 @@ resource "helm_release" "ollama-ui" {
 
   timeout = 900 # 15 minutes in seconds
 }
+
+
+data "kubernetes_service" "ollama-ui" {
+  metadata {
+    name = "open-webui"
+    namespace = "ollama-ui"
+  }
+
+  depends_on = [ helm_release.ollama-ui ]
+}
