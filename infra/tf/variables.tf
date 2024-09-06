@@ -70,5 +70,5 @@ variable "deploy_app" {
 variable "deploy_nv_device_plugin_ds" {
   description = "Deploy the Nvidia GPU Device Plugin for enabling GPU support."
   type        = bool
-  default     = false
+  default     = true
 }
