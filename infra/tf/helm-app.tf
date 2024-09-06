@@ -5,4 +5,5 @@ resource "helm_release" "app" {
   namespace        = "apps"
   create_namespace = true
   replace = true
+depends_on = [ local_file.cluster-config ]
 }

@@ -19,6 +19,4 @@ resource "helm_release" "ollama" {
 
   # set a 15 minute timeout for the helm release
   timeout = 900 # 15 minutes in seconds
-
-
 }

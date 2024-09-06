@@ -8,6 +8,8 @@ resource "civo_kubernetes_cluster" "cluster" {
     # Cluster type must be talos for GPU support
     cluster_type = "talos"
     
+    write_kubeconfig = true
+    
     # attach one 
     pools {
         size = var.cluster_node_size
@@ -18,8 +20,6 @@ resource "civo_kubernetes_cluster" "cluster" {
     timeouts {
         create = "10m"
     }
-
-    write_kubeconfig = true
 }
 
 # Create a local file with the kubeconfig

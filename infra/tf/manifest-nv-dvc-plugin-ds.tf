@@ -7,6 +7,8 @@ resource "kubernetes_daemonset" "nvidia-device-plugin-daemonset" {
     namespace = "kube-system"
   }
 
+depends_on = [ local_file.cluster-config ]
+
   spec {
     selector {
       match_labels = {
