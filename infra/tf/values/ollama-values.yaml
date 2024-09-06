@@ -13,6 +13,6 @@ ollama:
 
 persistentVolume:
   enabled: true
-  size: 250Gi
+  size: 100Gi
 
 
