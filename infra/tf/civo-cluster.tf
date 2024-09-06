@@ -18,6 +18,8 @@ resource "civo_kubernetes_cluster" "cluster" {
     timeouts {
         create = "10m"
     }
+
+    write_kubeconfig = true
 }
 
 # Create a local file with the kubeconfig
@@ -27,3 +29,8 @@ resource "local_file" "cluster-config" {
   file_permission      = "0600"
   directory_permission = "0755"
 }
+
+
+# output "kubeconfig" {
+#   value = civo_kubernetes_cluster.cluster.kubeconfig
+# }

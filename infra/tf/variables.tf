@@ -36,7 +36,7 @@ variable "civo_token" {}
 # The Civo Region to deploy the cluster in
 variable "region" {
   type        = string
-  default     = "LON1"
+  default     = "LON1" #NYC1
   description = "The region to provision the cluster against"
 }
 
@@ -63,12 +63,12 @@ variable "deploy_ollama_ui" {
 variable "deploy_app" {
   description = "Deploy the example application."
   type        = bool
-  default     = true
+  default     = false
 }
 
 # deploy the Nvidia Device plugin to enable GPU Support
 variable "deploy_nv_device_plugin_ds" {
   description = "Deploy the Nvidia GPU Device Plugin for enabling GPU support."
   type        = bool
-  default     = true
+  default     = false
 }

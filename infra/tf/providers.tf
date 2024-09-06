@@ -3,6 +3,7 @@ terraform {
     #  User to provision resources (firewal / cluster) in civo.com
     civo = {
       source  = "civo/civo"
+      version = "1.1.2"
     }
 
     # Used to output the kubeconfig to the local dir for local cluster access
@@ -14,14 +15,13 @@ terraform {
     # Used to provision helm charts into the k8s cluster
     helm = {
       source  = "hashicorp/helm"
-      version = "2.12.1"
+      version = "2.14.0"
     }
 
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.25.2"
+      version = "2.31.0"
     }
-
   }
 }
 
