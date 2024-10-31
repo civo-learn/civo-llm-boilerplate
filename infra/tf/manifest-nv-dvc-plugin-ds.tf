@@ -1,13 +1,13 @@
 
 
 resource "kubernetes_daemonset" "nvidia-device-plugin-daemonset" {
-  count            = var.deploy_nv_device_plugin_ds ? 1 : 0
+  count = var.deploy_nv_device_plugin_ds ? 1 : 0
   metadata {
     name      = "nvidia-device-plugin-daemonset"
     namespace = "kube-system"
   }
 
-depends_on = [ local_file.cluster-config ]
+  depends_on = [local_file.cluster-config]
 
   spec {
     selector {
