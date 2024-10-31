@@ -13,6 +13,8 @@ resource "helm_release" "ollama-ui" {
     value = var.default_models
   }
 
+  timeout = 900 # 15 minutes in seconds
+
 }
 
 
