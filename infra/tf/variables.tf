@@ -73,6 +73,12 @@ variable "deploy_nv_device_plugin_ds" {
   default     = true
 }
 
+variable "default_models" {
+  description = "The default model to use in Ollama Web UI."
+  type = string
+  default = "llama3.2:latest"
+}
+
 # Output the ollama-ui service IP
 output "ollama_ui_service_ip" {
   value = data.kubernetes_service.ollama-ui.status.0.load_balancer.0.ingress.0.ip

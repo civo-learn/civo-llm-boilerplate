@@ -6,8 +6,13 @@ resource "helm_release" "ollama-ui" {
   create_namespace = true
   replace = true
   depends_on = [ local_file.cluster-config ]
-
   timeout = 900 # 15 minutes in seconds
+
+  set {
+    name  = "webui.defaultModels"
+    value = var.default_models
+  }
+
 }
 
 
