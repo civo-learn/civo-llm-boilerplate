@@ -14,7 +14,6 @@ resource "helm_release" "ollama-ui" {
   }
 
   timeout = 900 # 15 minutes in seconds
-
 }
 
 
