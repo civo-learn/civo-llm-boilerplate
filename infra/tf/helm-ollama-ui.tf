@@ -13,6 +13,11 @@ resource "helm_release" "ollama-ui" {
     value = var.default_models
   }
 
+  set {
+    name = "webui.image.tag"
+    value = var.ollama_ui_image_version
+  }
+
   timeout = 900 # 15 minutes in seconds
 }
 

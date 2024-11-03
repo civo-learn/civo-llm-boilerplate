@@ -79,6 +79,12 @@ variable "default_models" {
   default     = ["llama3.2", "phi3.5"]
 }
 
+variable "ollama_ui_image_version" {
+  description = "The image version to use in the Ollama Web UI Helm Chart."
+  type        = string
+  default     = "latest"
+}
+
 # Output the ollama-ui service IP
 output "ollama_ui_service_ip" {
   value = data.kubernetes_service.ollama-ui.status.0.load_balancer.0.ingress.0.ip
