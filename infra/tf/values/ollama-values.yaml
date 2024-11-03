@@ -4,13 +4,7 @@ ollama:
     enabled: true
     # -- Specify the number of GPU to 1
     number: 1
-  # -- List of models to pull at container startup
-  models: 
-    - llama3.2
-    # - gemma
-    # - llava
-    # - mixtral
-
+    
 persistentVolume:
   enabled: true
   size: 100Gi
