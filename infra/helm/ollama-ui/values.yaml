@@ -6,7 +6,6 @@ webui:
   replicaCount: 1
   image:
     repository: ghcr.io/open-webui/open-webui
-    tag: ""
     pullPolicy: Always
   resources: {}
   ingress:
