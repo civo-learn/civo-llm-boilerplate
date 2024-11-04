@@ -80,7 +80,7 @@ variable "default_models" {
 }
 
 variable "ollama_ui_image_version" {
-  description = "The image version to use in the Ollama Web UI Helm Chart."
+  description = "The image tag to use in the Ollama Web UI Helm Chart."
   type        = string
   default     = "latest"
 }
