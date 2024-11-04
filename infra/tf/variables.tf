@@ -63,7 +63,7 @@ variable "deploy_ollama_ui" {
 variable "deploy_app" {
   description = "Deploy the example application."
   type        = bool
-  default     = false
+  default     = true
 }
 
 # deploy the Nvidia Device plugin to enable GPU Support
@@ -88,4 +88,8 @@ variable "ollama_ui_image_version" {
 # Output the ollama-ui service IP
 output "ollama_ui_service_ip" {
   value = data.kubernetes_service.ollama-ui.status.0.load_balancer.0.ingress.0.ip
+}
+
+output "ollama_app_load_balancer_ip" {
+  value = data.kubernetes_service.app.status.0.load_balancer.0.ingress.0.ip
 }

@@ -5,5 +5,15 @@ resource "helm_release" "app" {
   namespace        = "apps"
   create_namespace = true
   replace = true
+  timeout = 900
 depends_on = [ local_file.cluster-config ]
+}
+
+data "kubernetes_service" "app" {
+  metadata {
+    name      = "app"
+    namespace = "apps"
+  }
+
+  depends_on = [helm_release.app]
 }
