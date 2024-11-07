@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   # customise this to your own repository
-  repository: ghcr.io/civo-learn/llm-boilerplate-app
+  repository: bennorris12345/civo-llm-boilerplate
   pullPolicy: Always
   tag: "latest"
 

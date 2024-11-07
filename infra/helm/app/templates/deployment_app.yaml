@@ -18,3 +18,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
+          env:
+          - name: OLLAMA_URL
+#            value: "http://ollama:11434"
+            value: "http://ollama.ollama.svc.cluster.local:11434"
