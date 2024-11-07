@@ -49,7 +49,7 @@ variable "region" {
 variable "deploy_ollama" {
   description = "Deploy the Ollama inference server."
   type        = bool
-  default     = true
+  default     = false
 }
 
 # Deploy the Ollama UI
