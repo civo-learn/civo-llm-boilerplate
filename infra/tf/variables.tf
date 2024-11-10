@@ -56,14 +56,14 @@ variable "deploy_ollama" {
 variable "deploy_ollama_ui" {
   description = "Deploy the Ollama Web UI."
   type        = bool
-  default     = false
+  default     = true
 }
 
 # deploy the example application 
 variable "deploy_app" {
   description = "Deploy the example application."
   type        = bool
-  default     = true
+  default     = false
 }
 
 # deploy the Nvidia Device plugin to enable GPU Support
@@ -75,7 +75,7 @@ variable "deploy_nv_device_plugin_ds" {
 
 # The list of available models to have in the Web UI
 variable "default_models" {
-  description = "List of models to from Ollama."
+  description = "List of models to use from Ollama."
   type        = list(string)
   default     = ["llama3.2:latest", "x/llama3.2-vision:latest"]
 }
