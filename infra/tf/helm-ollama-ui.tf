@@ -15,14 +15,15 @@ resource "helm_release" "ollama-ui" {
 
   set {
     name = "webui.image.tag"
-    value = var.ollama_ui_image_version
+    value = var.openwebui_image_tag
   }
 
-  #timeout = 900 # 15 minutes in seconds.
+  timeout = 900 # 15 minutes in seconds.
 }
 
 
 data "kubernetes_service" "ollama-ui" {
+  count = var.deploy_ollama_ui ? 1 : 0
   metadata {
     name      = "open-webui"
     namespace = "ollama-ui"
