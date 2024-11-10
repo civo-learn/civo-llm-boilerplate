@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: 80
           env:
-          - name: OLLAMA_URL
-#            value: "http://ollama:11434"
-            value: "http://ollama.ollama.svc.cluster.local:11434"
+          - name: TEXT_MODEL
+            value: {{ .Values.model.textModel }}
+          - name: IMAGE_MODEL
+            value: {{ .Values.model.imageModel }}
+          

@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
-import ollama
+from flask import Flask, render_template, request
+from ollama import Client
 import os
 from PIL import Image
 import base64
@@ -9,8 +9,8 @@ app = Flask(__name__)
 upload_folder = 'uploads'
 app.config['UPLOAD_FOLDER'] = upload_folder
 
-ollama_model_text = "llama3.2:latest"
-ollama_model_image = "x/llama3.2-vision:latest"
+ollama_model_text = os.environ.get('TEXT_MODEL')
+ollama_model_image = os.environ.get('IMAGE_MODEL')
 
 #  check if the application is running in a container
 is_container = (
@@ -27,12 +27,15 @@ is_container = (
 
 # use the localhost if not running in a container
 if is_container:
-    ollama.base_url = os.getenv("OLLAMA_URL")
+    base_url = "http://ollama.ollama.svc.cluster.local:11434"
 else:
-    ollama.base_url = "http://localhost:11434" # Development endpoint port forwarded
+    base_url = "http://localhost:11434" # Development endpoint port forwarded
+    
+client = Client(host = base_url)
 
 
 def process_image(image_path):
+    """Convert image to base64."""
 
     with Image.open(image_path) as img:
         buffered = io.BytesIO()
@@ -55,12 +58,11 @@ def input_image():
 
 @app.route('/text_response', methods=['POST', 'GET'])
 def submit_text():
-    
-    ollama.pull(ollama_model_text)
+    """Handle text submission and response."""
 
     ollama_text_prompt = request.form['text']
 
-    ollama_output = ollama.chat(
+    ollama_output = client.chat(
         model=ollama_model_text,
         messages=[{'role': 'user', 'content': ollama_text_prompt}],
         stream=False,
@@ -71,8 +73,7 @@ def submit_text():
 
 @app.route('/image_response', methods=['POST', 'GET'])
 def submit_image():
-
-    ollama.pull(ollama_model_image)
+    """Handle image submission and response."""
 
     if not os.path.exists(upload_folder):
         os.makedirs(upload_folder)
@@ -87,7 +88,7 @@ def submit_image():
     ollama_text_prompt = request.form["ollama_text_prompt"]
 
     #Model output
-    ollama_output = ollama.generate(model = ollama_model_image, 
+    ollama_output = client.generate(model = ollama_model_image, 
                 images = [img_base64],
                 prompt = ollama_text_prompt,
                 stream = False)
