@@ -8,7 +8,3 @@ ollama:
 persistentVolume:
   enabled: true
   size: 100Gi
-
-image:
-  tag: "0.4.0-rc8"
-

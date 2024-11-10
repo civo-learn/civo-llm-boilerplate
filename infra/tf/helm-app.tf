@@ -10,6 +10,7 @@ depends_on = [ local_file.cluster-config ]
 }
 
 data "kubernetes_service" "app" {
+  count            = var.deploy_app ? 1 : 0
   metadata {
     name      = "app"
     namespace = "apps"
