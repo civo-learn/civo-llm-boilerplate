@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result from {{ model }}</title>
+</head>
+<body>
+    <h2>Output from {{ model }}</h2>
+    <p>{{ model_output }}</p>
+</body>
+<form action="{{ url_for('input_text') }}" method="get">
+    <button type="submit">Go back to use {{ model }} again</button>
+</form>
+</html>

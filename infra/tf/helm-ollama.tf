@@ -14,8 +14,13 @@ resource "helm_release" "ollama" {
   ]
 
   set_list {
-    name  = "ollama.models"
+    name  = "ollama.models.pull"
     value = var.default_models
+  }
+
+  set {
+    name = "image.tag"
+    value = var.ollama_image_tag
   }
 
   depends_on = [

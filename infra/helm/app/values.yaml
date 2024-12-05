@@ -9,3 +9,7 @@ image:
 service:
   type: LoadBalancer
   port: 80
+
+model:
+  textModel: "llama3.2:latest"
+  imageModel: "x/llama3.2-vision:latest"

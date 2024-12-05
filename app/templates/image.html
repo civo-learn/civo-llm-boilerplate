@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+</head>
+<body>
+    <h2>Upload an image and type what you'd like to ask. Model used: {{ model }}</h2>
+    <form action="{{ url_for('submit_image') }}" method="POST" enctype="multipart/form-data">
+        <label for="image">Choose an image:</label>
+        <input type="file" name="ollama_input_image" id="image" accept="image/*" required><br><br>
+        <textarea name="ollama_text_prompt" rows="4" cols="50"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

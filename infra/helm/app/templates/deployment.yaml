@@ -18,3 +18,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
+          env:
+          - name: TEXT_MODEL
+            value: {{ .Values.model.textModel }}
+          - name: IMAGE_MODEL
+            value: {{ .Values.model.imageModel }}
+          
