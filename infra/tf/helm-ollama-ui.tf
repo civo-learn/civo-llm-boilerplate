@@ -18,7 +18,6 @@ resource "helm_release" "ollama-ui" {
     value = var.openwebui_image_tag
   }
 
-  timeout = 900 # 15 minutes in seconds.
 }
 
 
