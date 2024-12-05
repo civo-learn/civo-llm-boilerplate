@@ -18,9 +18,7 @@ resource "helm_release" "ollama-ui" {
     value = var.ollama_ui_image_version
   }
 
-  timeout = 900 # 15 minutes in seconds.
 }
-
 
 data "kubernetes_service" "ollama-ui" {
   metadata {
