@@ -73,14 +73,23 @@ variable "deploy_nv_device_plugin_ds" {
   default     = true
 }
 
+# The list of available models to have in the Web UI
 variable "default_models" {
-  description = "List of default models to use in Ollama Web UI."
+  description = "List of models to use from Ollama."
   type        = list(string)
-  default     = ["llama3.2", "phi3.5"]
+  default     = ["llama3.2:latest", "x/llama3.2-vision:latest"]
 }
 
-variable "ollama_ui_image_version" {
-  description = "The image tag to use in the Ollama Web UI Helm Chart."
+# The tag to use for the Open Web UI image
+variable "openwebui_image_tag" {
+  description = "The image tag to use for the Open Web UI Helm chart."
+  type        = string
+  default     = "latest"
+}
+
+# The tag to use for the Ollama image
+variable "ollama_image_tag" {
+  description = "The image tag to use for the Ollama Helm chart. For vison models use 0.4.0-rc8 or later."
   type        = string
   default     = "latest"
 }

@@ -18,6 +18,11 @@ resource "helm_release" "ollama" {
     value = var.default_models
   }
 
+  set {
+    name = "image.tag"
+    value = var.ollama_image_tag
+  }
+
   depends_on = [
     kubernetes_daemonset.nvidia-device-plugin-daemonset
   ]

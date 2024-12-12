@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter some text for {{ model }}</title>
+</head>
+<body>
+    <h2>Submit Text for the {{ model }} model </h2>
+    <form action="{{ url_for('submit_text') }}" method="post">
+        <textarea name="text" rows="4" cols="50"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
