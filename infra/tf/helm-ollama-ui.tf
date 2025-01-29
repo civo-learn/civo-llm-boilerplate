@@ -6,7 +6,7 @@ resource "helm_release" "ollama-ui" {
   create_namespace = true
   replace          = true
   depends_on       = [local_file.cluster-config]
-  timeout          = 900 # 15 minutes in seconds
+  timeout          = 6000 # 15 minutes in seconds
 
   set_list {
     name  = "webui.defaultModels"
@@ -14,7 +14,7 @@ resource "helm_release" "ollama-ui" {
   }
 
   set {
-    name = "webui.image.tag"
+    name  = "webui.image.tag"
     value = var.openwebui_image_tag
   }
 

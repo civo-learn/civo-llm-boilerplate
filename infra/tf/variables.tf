@@ -77,7 +77,7 @@ variable "deploy_nv_device_plugin_ds" {
 variable "default_models" {
   description = "List of models to use from Ollama."
   type        = list(string)
-  default     = ["llama3.2:latest", "x/llama3.2-vision:latest"]
+  default     = ["llama3.2:latest", "x/llama3.2-vision:latest", "deepseek-r1"]
 }
 
 # The tag to use for the Open Web UI image
@@ -101,5 +101,5 @@ output "ollama_ui_service_ip" {
 
 # Output the web app load balancer public IP
 output "ollama_app_load_balancer_ip" {
-  value = var.deploy_app ? data.kubernetes_service.app[0].status.0.load_balancer.0.ingress.0.ip : null 
+  value = var.deploy_app ? data.kubernetes_service.app[0].status.0.load_balancer.0.ingress.0.ip : null
 }

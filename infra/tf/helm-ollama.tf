@@ -19,7 +19,7 @@ resource "helm_release" "ollama" {
   }
 
   set {
-    name = "image.tag"
+    name  = "image.tag"
     value = var.ollama_image_tag
   }
 
@@ -27,6 +27,6 @@ resource "helm_release" "ollama" {
     kubernetes_daemonset.nvidia-device-plugin-daemonset
   ]
 
-  # set a 15 minute timeout for the helm release
-  timeout = 900 # 15 minutes in seconds
+  timeout = 6000 # 15 minutes in seconds
+
 }
