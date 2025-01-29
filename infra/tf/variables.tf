@@ -76,7 +76,7 @@ variable "deploy_nv_device_plugin_ds" {
 variable "default_models" {
   description = "List of default models to use in Ollama Web UI."
   type        = list(string)
-  default     = ["llama3.2", "phi3.5"]
+  default     = ["llama3.2", "deepseek-r1"] #Include additional models here if required
 }
 
 variable "ollama_ui_image_version" {

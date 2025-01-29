@@ -6,6 +6,8 @@ resource "helm_release" "ollama" {
   chart      = "ollama"
   wait       = true
 
+  timeout          = 60000 # 15 minutes in seconds
+
   namespace        = "ollama"
   create_namespace = true
 
@@ -22,6 +24,4 @@ resource "helm_release" "ollama" {
     kubernetes_daemonset.nvidia-device-plugin-daemonset
   ]
 
-  # set a 15 minute timeout for the helm release
-  timeout = 900 # 15 minutes in seconds
 }
