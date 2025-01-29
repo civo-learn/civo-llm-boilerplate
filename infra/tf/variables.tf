@@ -5,7 +5,7 @@
 # The name of the cluster
 variable "cluster_name" {
   type        = string
-  default     = "llm_boilerplate-deepseek-bn"
+  default     = "llm_boilerplate"
   description = "The name of the cluster to create"
 }
 
