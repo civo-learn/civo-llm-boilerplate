@@ -41,16 +41,24 @@ depends_on = [ local_file.cluster-config ]
             value = "false"
           }
 
+          env {
+            name  = "NVIDIA_DRIVER_ROOT"
+            value = "/host"
+          }
+
           security_context {
-            allow_privilege_escalation = false
-            capabilities {
-              drop = ["ALL"]
-            }
+            privileged = true
           }
 
           volume_mount {
             name       = "device-plugin"
             mount_path = "/var/lib/kubelet/device-plugins"
+          }
+
+          volume_mount {
+            name       = "host-root"
+            mount_path = "/host"
+            read_only  = true
           }
         }
 
@@ -59,6 +67,14 @@ depends_on = [ local_file.cluster-config ]
 
           host_path {
             path = "/var/lib/kubelet/device-plugins"
+          }
+        }
+
+        volume {
+          name = "host-root"
+
+          host_path {
+            path = "/"
           }
         }
       }
