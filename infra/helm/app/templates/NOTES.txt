@@ -1,0 +1,10 @@
+The app has been deployed.
+
+To get the LoadBalancer IP:
+
+  terraform output ollama_app_load_balancer_ip
+
+Then test:
+
+  curl http://<IP>/
+  curl http://<IP>/health

@@ -1,51 +1,39 @@
-from flask import Flask
+import os
+
+from flask import Flask, jsonify
 from openai import OpenAI
-from os import path
+
 app = Flask(__name__)
 
-#  check if the application is running in a container
-is_container = (
-    path.exists("/var/run/secrets/kubernetes.io/serviceaccount/namespace")
-    or path.exists("/.dockerenv")
-    or (
-        path.isfile("/proc/self/cgroup")
-        and (
-            any("kubepods" in line for line in open("/proc/self/cgroup"))
-            or any("docker" in line for line in open("/proc/self/cgroup"))
-        )
-    )
+OLLAMA_BASE_URL = os.environ.get(
+    "OLLAMA_BASE_URL",
+    "http://ollama.ollama.svc.cluster.local:11434"
 )
+MODEL = os.environ.get("MODEL", "llama3.3:latest")
 
-@app.route('/')
-def return_results():
-    
-    # use the localhost if not running in a container
-    if is_container:
-        ollama_api_endpoint = "http://ollama.ollama.svc.cluster.local:11434"
-    else:
-        ollama_api_endpoint = "http://localhost:11434" # Development endpoint port forwarded
-    
-    client = OpenAI(
-        base_url = ollama_api_endpoint + '/v1',
-        api_key='forced_key', # required, but unused
-    )
-    
-    # generate a response
-    response = client.chat.completions.create(
-        model="llama3.2:latest",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Write a motivational quote."},
-        ]
-    )
-    
-    # return the response
-    return response.choices[0].message.content
+client = OpenAI(base_url=f"{OLLAMA_BASE_URL}/v1", api_key="ollama")
 
-if __name__ == '__main__':
-    if is_container:
-        app.run(debug=True, host='0.0.0.0', port=80)
-    else:
-        app.run(debug=True, host='0.0.0.0')
-    
-    
+
+@app.route("/health")
+def health():
+    return jsonify({"status": "ok"})
+
+
+@app.route("/")
+def generate():
+    try:
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Write a motivational quote."},
+            ],
+            timeout=30,
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return jsonify({"error": str(e)}), 503
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
