@@ -2,10 +2,23 @@ replicaCount: 1
 
 image:
   # customise this to your own repository
-  repository: ghcr.io/civo-learn/llm-boilerplate-app
+  repository: billydrel/example
   pullPolicy: Always
   tag: "latest"
+
+env:
+  ollamaBaseUrl: "http://ollama.ollama.svc.cluster.local:11434"
+  model: "llama3.3:latest"
 
 service:
   type: LoadBalancer
   port: 80
+  targetPort: 8080
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"

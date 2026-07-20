@@ -7,7 +7,13 @@ resource "civo_kubernetes_cluster" "cluster" {
 
   # Cluster type must be talos for GPU support
   cluster_type       = "talos"
-  kubernetes_version = "1.27.0"
+  kubernetes_version = "talos-v1.5.0"
+
+  lifecycle {
+    ignore_changes = [
+      kubernetes_version,
+    ]
+  }
 
   write_kubeconfig = true
 
@@ -21,6 +27,7 @@ resource "civo_kubernetes_cluster" "cluster" {
   timeouts {
     create = "10m"
   }
+
 }
 
 # Create a local file with the kubeconfig

@@ -4,9 +4,10 @@ resource "helm_release" "ollama" {
 
   repository = "https://otwld.github.io/ollama-helm/"
   chart      = "ollama"
+  version    = "1.67.0"
   wait       = true
 
-  timeout          = 60000 # 15 minutes in seconds
+  timeout          = 900 # 15 minutes
 
   namespace        = "ollama"
   create_namespace = true

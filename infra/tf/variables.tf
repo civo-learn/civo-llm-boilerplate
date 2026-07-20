@@ -21,7 +21,7 @@ variable "cluster_node_size" {
 # the number of nodes to provision in the cluster
 variable "cluster_node_count" {
   type        = number
-  default     = "1"
+  default     = 1
   description = "The number of nodes to provision in the cluster"
 
 }
@@ -63,7 +63,7 @@ variable "deploy_ollama_ui" {
 variable "deploy_app" {
   description = "Deploy the example application."
   type        = bool
-  default     = false
+  default     = true
 }
 
 # deploy the Nvidia Device plugin to enable GPU Support
@@ -83,5 +83,5 @@ variable "default_models" {
 variable "ollama_ui_image_version" {
   description = "The image tag to use in the Ollama Web UI Helm Chart."
   type        = string
-  default     = "latest"
+  default     = "v0.10.2"
 }

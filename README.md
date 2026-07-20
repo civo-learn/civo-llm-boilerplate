@@ -1,4 +1,3 @@
-
 # Project Name: Civo LLM Boilerplate
 
 ## Introduction
@@ -14,10 +13,10 @@ This project provides a boilerplate for deploying a K8s GPU Cluster on Civo Clou
 
 The goal of this project is to enable customers to easily use Open Source Large Language Models (LLMs), providing 1:1 compatibility with OpenAI's ChatGPT.
 
-- Access to the latest Open Source LLMs made avaliable from Ollama
+- Access to the latest Open Source LLMs made available from Ollama
 - Provide a user interface to allow non-technical users access to models
-- Provide a path to produce insights with LLMs whilst maintaining soverignty over the data
-- enable LLMs in regulatory usecases where ChatGPT can't be used.
+- Provide a path to produce insights with LLMs whilst maintaining sovereignty over the data
+- Enable LLMs in regulatory usecases where ChatGPT can't be used.
 
 
 ## Prerequisites
@@ -27,32 +26,39 @@ Before beginning, ensure you have the following:
 - A [Civo Cloud account](https://dashboard.civo.com/signup).
 - A [Civo Cloud API Key](https://dashboard.civo.com/security).
 - [Terraform](https://developer.hashicorp.com/terraform/install) installed on your local machine.
+- [Docker Desktop](https://docs.docker.com/desktop/) installed and running (for building the example app).
 
 ## Project Setup
 
-1. Obtain your Civo API key from the Civo Cloud dashboard.
-2. Create a file named `terraform.tfvars` in the project's root directory.
-3. Insert your Civo API key into this file as follows:
+### Option 1: Environment variable (recommended)
 
-    ```hcl
-    civo_token = "YOUR_API_KEY"
-    ```
+```powershell
+$env:CIVO_TOKEN = "YOUR_API_KEY"
+```
+
+### Option 2: Terraform variables file
+
+Create `infra/tf/terraform.tfvars` with:
+
+```hcl
+civo_token = "YOUR_API_KEY"
+```
 
 ## Project Configuration
 
-Project configurations are managed within the `tf/variables.tf` file. This file contains definitions and default values for the Terraform variables used in the project.
+Project configurations are managed within the `infra/tf/variables.tf` file. This file contains definitions and default values for the Terraform variables used in the project.
 
 | Variable             | Description                                       | Type   | Default Value      |
 |----------------------|---------------------------------------------------|--------|--------------------|
-| `cluster_name`       | The name of the cluster.                          | string | "llm_cluster3"     |
-| `cluster_node_size`  | The GPU node instance to use for the cluster.     | string | "g4g.40.kube.small" |
+| `cluster_name`       | The name of the cluster.                          | string | "llm_boilerplate"  |
+| `cluster_node_size`  | The GPU node instance to use for the cluster.     | string | "an.g1.l40s.kube.x1" |
 | `cluster_node_count` | The number of nodes to provision in the cluster.  | number | 1                  |
 | `civo_token`         | The Civo API token, set in terraform.tfvars.      | string | N/A                |
-| `region`             | The Civo Region to deploy the cluster in.         | string | "LON1"             |
+| `region`             | The Civo Region to deploy the cluster in.         | string | "NYC1"             |
 
 ## Deployment Configuration
 
-Deployment of components is controlled through boolean variables within the `tf/variables.tf` file. Set these variables to `true` to enable the deployment of the corresponding component.
+Deployment of components is controlled through boolean variables within the `infra/tf/variables.tf` file. Set these variables to `true` to enable the deployment of the corresponding component.
 
 | Variable                      | Description                                             | Type  | Default Value |
 |-------------------------------|---------------------------------------------------------|-------|---------------|
@@ -60,78 +66,24 @@ Deployment of components is controlled through boolean variables within the `tf/
 | `deploy_ollama_ui`            | Deploy the Ollama Web UI.                               | bool  | true         |
 | `deploy_app`                  | Deploy the example application.                         | bool  | false         |
 | `deploy_nv_device_plugin_ds`  | Deploy the Nvidia GPU Device Plugin for enabling GPU support. | bool  | true         |
+| `default_models`              | List of models to pre-pull in Ollama.                   | list  | ["llama3.3", "gemma3:4b", "qwen3:8b"] |
+| `ollama_ui_image_version`     | Image tag for Open WebUI.                               | string | "v0.10.2"     |
 
-## Deploy LLM Boiler Plate
+## Deploy the Cluster
 
-To deploy, simply run the following commands:
-
-1. **Initialize Terraform:**
-
-    ```
-    terraform init
-    ```
-
-    This command initializes Terraform, installs the required providers, and prepares the environment for deployment.
-
-2. **Plan Deployment:**
+1. **Navigate to the Terraform directory:**
 
     ```
-    terraform plan
+    cd infra/tf
     ```
 
-    This command displays the deployment plan, showing what resources will be created or modified.
-
-3. **Apply Deployment:**
-
-    ```
-    terraform apply
-    ```
-
-    This command applies the deployment plan. Terraform will prompt for confirmation before proceeding with the creation of resources.
-
-
-## Building and deploying the Example Application
-1. **Build the custom application container**
-    Enter the application folder:
-    ```
-    cd app
-    ```
-    Build the docker image:
-    ```
-    docker build -t {repo}/{image} .
-    ```
-    Push the docker image to a registry:
-    ```
-    docker push -t {repo}/{image}
-    ```
-    Navigate to the helm chart:
-    ```
-    cd ../infra/helm/app
-    ```
-    Modify the Helm Values to point to your docker registry, e.g
-    ```yaml
-    replicaCount: 1
-    image:
-        repository: {repo}/{image}
-        pullPolicy: Always
-        tag: "latest"
-
-    service:
-        type: ClusterIP
-        port: 80
-    ```
 2. **Initialize Terraform:**
 
-    Navigate to the terraform directory
-    ```
-    cd ../tf
-    ```
-
     ```
     terraform init
     ```
 
-    This command initializes Terraform, installs the required providers, and prepares the environment for deployment.
+    This installs the required providers and prepares the environment.
 
 3. **Plan Deployment:**
 
@@ -139,7 +91,7 @@ To deploy, simply run the following commands:
     terraform plan
     ```
 
-    This command displays the deployment plan, showing what resources will be created or modified.
+    This shows what resources will be created.
 
 4. **Apply Deployment:**
 
@@ -147,4 +99,135 @@ To deploy, simply run the following commands:
     terraform apply
     ```
 
-    This command applies the deployment plan. Terraform will prompt for confirmation before proceeding with the creation of resources.
+    Type `yes` when prompted. This takes 10-15 minutes.
+
+5. **Get the Open WebUI IP:**
+
+    ```
+    terraform output ollama_ui_service_ip
+    ```
+
+    Open `http://<IP>` in your browser to access the chat interface.
+
+## Building and Deploying the Example Application
+
+The example app is a Flask service that connects to Ollama and returns a generated quote. It runs on port 8080 and exposes a health endpoint at `/health`.
+
+### Enable the app
+
+Set `deploy_app = true` in `infra/tf/variables.tf` or add it to `infra/tf/terraform.tfvars`:
+
+```hcl
+deploy_app = true
+```
+
+### Build and push the Docker image
+
+1. **Build the image:**
+
+    ```
+    cd app
+    docker build -t your-dockerhub-username/example .
+    ```
+
+2. **Push to Docker Hub:**
+
+    Login if needed:
+    ```
+    docker login
+    ```
+
+    Then push:
+    ```
+    docker push your-dockerhub-username/example
+    ```
+
+### Update the Helm chart
+
+Edit `infra/helm/app/values.yaml`:
+
+```yaml
+image:
+  repository: your-dockerhub-username/example
+  tag: "latest"
+
+env:
+  ollamaBaseUrl: "http://ollama.ollama.svc.cluster.local:11434"
+  model: "llama3.3:latest"
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8080
+```
+
+### Deploy with Terraform
+
+```
+cd infra/tf
+terraform apply
+```
+
+### Check the app
+
+Get the LoadBalancer IP:
+
+```
+terraform output ollama_app_load_balancer_ip
+```
+
+Test it:
+
+```
+curl http://<IP>/
+curl http://<IP>/health
+```
+
+The first returns a motivational quote from the LLM. The second returns `{"status":"ok"}`.
+
+### Environment variables
+
+The app accepts these environment variables (set in `infra/helm/app/values.yaml`):
+
+| Variable          | Default                                        | Description            |
+|-------------------|------------------------------------------------|------------------------|
+| `OLLAMA_BASE_URL` | `http://ollama.ollama.svc.cluster.local:11434` | Ollama API endpoint    |
+| `MODEL`           | `llama3.3:latest`                              | Model name to query    |
+
+## Destroy Everything
+
+```
+cd infra/tf
+terraform destroy
+```
+
+## Project Structure
+
+```
+├── app/                        # Example Flask application
+│   ├── main.py                 # App entrypoint with / and /health endpoints
+│   ├── Dockerfile              # Python 3.12-slim, non-root user
+│   ├── requirements.txt        # Pinned dependencies
+│   └── .dockerignore
+├── infra/
+│   ├── helm/
+│   │   ├── app/                # Helm chart for the example app
+│   │   ├── ollama-ui/          # Helm chart for Open WebUI
+│   └── tf/                     # Terraform configuration
+│       ├── providers.tf        # Terraform providers
+│       ├── variables.tf        # All configurable variables
+│       ├── civo-cluster.tf     # K8s cluster resource
+│       ├── civo-network.tf     # Network resource
+│       ├── civo-firewall.tf    # Firewall rules
+│       ├── helm-ollama.tf      # Ollama Helm release
+│       ├── helm-ollama-ui.tf   # Open WebUI Helm release
+│       ├── helm-app.tf         # Example app Helm release
+│       ├── manifest-nv-dvc-plugin-ds.tf  # Nvidia device plugin
+│       └── outputs.tf          # Output values
+├── notebooks/                  # Jupyter notebooks
+│   ├── openai.ipynb
+│   ├── langchain.ipynb
+│   ├── llamaindex.ipynb
+│   └── autogen.ipynb
+└── .github/workflows/          # CI/CD workflows
+```
